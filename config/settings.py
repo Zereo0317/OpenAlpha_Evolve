@@ -19,10 +19,10 @@ EVALUATION_MODEL = os.getenv("EVALUATION_MODEL")
 # LiteLLM Configuration
 LITELLM_DEFAULT_MODEL = os.getenv("LITELLM_DEFAULT_MODEL", "gpt-3.5-turbo")
 LITELLM_DEFAULT_BASE_URL = os.getenv("LITELLM_DEFAULT_BASE_URL", None)
-LITELLM_MAX_TOKENS = os.getenv("LITELLM_MAX_TOKENS")
-LITELLM_TEMPERATURE = os.getenv("LITELLM_TEMPERATURE")
-LITELLM_TOP_P = os.getenv("LITELLM_TOP_P")
-LITELLM_TOP_K = os.getenv("LITELLM_TOP_K")
+LITELLM_MAX_TOKENS = int(os.getenv("LITELLM_MAX_TOKENS"))
+LITELLM_TEMPERATURE = float(os.getenv("LITELLM_TEMPERATURE"))
+LITELLM_TOP_P = float(os.getenv("LITELLM_TOP_P"))
+LITELLM_TOP_K = int(os.getenv("LITELLM_TOP_K"))
 
 # if not PRO_API_KEY:
 #     print("Warning: PRO_API_KEY not found in .env or environment. Using a NON-FUNCTIONAL placeholder. Please create a .env file with your valid API key.")

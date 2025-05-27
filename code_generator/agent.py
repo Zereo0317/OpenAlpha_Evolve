@@ -24,7 +24,7 @@ class CodeGeneratorAgent(CodeGeneratorInterface):
         self.generation_config = {
             "temperature": settings.LITELLM_TEMPERATURE,
             "top_p": settings.LITELLM_TOP_P,
-            "top_k": settings.LITELLM_TOP_K,
+            #"top_k": settings.LITELLM_TOP_K,
             "max_tokens": settings.LITELLM_MAX_TOKENS,
         }
         self.litellm_extra_params = {
