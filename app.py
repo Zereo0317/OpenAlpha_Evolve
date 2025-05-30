@@ -10,6 +10,7 @@ import time
 import logging
 from datetime import datetime
 from dotenv import load_dotenv
+import yaml
 
                                                
 project_root = os.path.abspath(os.path.dirname(__file__))
@@ -267,6 +268,37 @@ def set_fib_example():
         ""
     )
 
+
+def load_task_from_yaml_file(yaml_file):
+    """Load task definition from an uploaded YAML file."""
+    if yaml_file is None:
+        return "", "", "", "", ""
+    try:
+        with open(yaml_file.name, "r") as f:
+            data = yaml.safe_load(f)
+
+        task_id = data.get("task_id", "")
+        description = data.get("task_description", "")
+        function_name = data.get("function_name", "")
+        allowed_imports = ", ".join(data.get("allowed_imports", []))
+
+        examples = []
+        for group in data.get("tests", []):
+            for case in group.get("test_cases", []):
+                example = {"input": case.get("input")}
+                if "output" in case:
+                    example["output"] = case["output"]
+                if "validation_func" in case:
+                    example["validation_func"] = case["validation_func"]
+                examples.append(example)
+
+        examples_json = json.dumps(examples, indent=4)
+
+        return task_id, description, function_name, examples_json, allowed_imports
+    except Exception as e:
+        logger.error(f"Error loading YAML: {e}")
+        return "", "", "", "", ""
+
                              
 with gr.Blocks(title="OpenAlpha_Evolve") as demo:
     gr.Markdown("# 🧬 OpenAlpha_Evolve: Autonomous Algorithm Evolution")
@@ -311,6 +343,11 @@ with gr.Blocks(title="OpenAlpha_Evolve") as demo:
                 label="Allowed Imports (comma-separated)",
                 placeholder="e.g., math",
                 value=""
+            )
+
+            yaml_upload = gr.File(
+                label="Load Task from YAML",
+                file_types=[".yaml", ".yml"]
             )
             
             with gr.Row():
@@ -369,6 +406,12 @@ with gr.Blocks(title="OpenAlpha_Evolve") as demo:
                     
     example_btn.click(
         set_fib_example,
+        outputs=[task_id, description, function_name, examples_json, allowed_imports]
+    )
+
+    yaml_upload.upload(
+        load_task_from_yaml_file,
+        inputs=yaml_upload,
         outputs=[task_id, description, function_name, examples_json, allowed_imports]
     )
     
