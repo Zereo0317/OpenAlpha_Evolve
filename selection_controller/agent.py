@@ -67,7 +67,10 @@ class SelectionControllerAgent(SelectionControllerInterface, BaseAgent):
         super().__init__()
         self.elitism_count = settings.ELITISM_COUNT
         self.num_islands = settings.NUM_ISLANDS
-        self.migration_interval = settings.MIGRATION_INTERVAL
+        # ``settings`` used to expose ``MIGRATION_INTERVAL``.  The rest of the
+        # application (e.g. ``app.py``) refers to ``MIGRATION_FREQUENCY`` so we
+        # mirror that name here.
+        self.migration_frequency = settings.MIGRATION_FREQUENCY
         self.islands: Dict[int, Island] = {}
         self.current_generation = 0
         logger.info(f"SelectionControllerAgent initialized with {self.num_islands} islands and elitism_count: {self.elitism_count}")
@@ -210,7 +213,7 @@ class SelectionControllerAgent(SelectionControllerInterface, BaseAgent):
             island.update_metrics()
 
         # Check if it's time for migration
-        if self.current_generation % self.migration_interval == 0:
+        if self.current_generation % self.migration_frequency == 0:
             if settings.DEBUG:
                 logger.debug(f"Generation {self.current_generation}: Performing migration")
             self._perform_migration()

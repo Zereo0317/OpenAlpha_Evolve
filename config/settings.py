@@ -46,7 +46,10 @@ CROSSOVER_RATE = 0.2
 
 # Island Model Settings
 NUM_ISLANDS = 4  # Number of subpopulations
-MIGRATION_INTERVAL = 4  # Number of generations between migrations
+# Frequency (in generations) at which islands perform migration.
+# This was previously named ``MIGRATION_INTERVAL`` which caused a mismatch with
+# the runtime configuration options.
+MIGRATION_FREQUENCY = 4
 ISLAND_POPULATION_SIZE = POPULATION_SIZE // NUM_ISLANDS  # Programs per island
 MIN_ISLAND_SIZE = 2  # Minimum number of programs per island
 MIGRATION_RATE = 0.2  # Rate at which programs migrate between islands
