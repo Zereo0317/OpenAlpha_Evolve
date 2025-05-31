@@ -1,5 +1,11 @@
 import os
-from dotenv import load_dotenv
+
+try:
+    from dotenv import load_dotenv
+except ModuleNotFoundError:  # pragma: no cover - fallback for environments without python-dotenv
+    def load_dotenv(*args, **kwargs):
+        """Fallback no-op if python-dotenv is not installed."""
+        return False
 
 load_dotenv()
 
@@ -23,10 +29,10 @@ EVALUATION_MODEL = os.getenv("EVALUATION_MODEL")
 # Use the Gemini 2.5 flash model by default for all LiteLLM calls
 LITELLM_DEFAULT_MODEL = os.getenv("LITELLM_DEFAULT_MODEL", FLASH_MODEL)
 LITELLM_DEFAULT_BASE_URL = os.getenv("LITELLM_DEFAULT_BASE_URL", None)
-LITELLM_MAX_TOKENS = int(os.getenv("LITELLM_MAX_TOKENS"))
-LITELLM_TEMPERATURE = float(os.getenv("LITELLM_TEMPERATURE"))
-LITELLM_TOP_P = float(os.getenv("LITELLM_TOP_P"))
-LITELLM_TOP_K = int(os.getenv("LITELLM_TOP_K"))
+LITELLM_MAX_TOKENS = int(os.getenv("LITELLM_MAX_TOKENS", "4096"))
+LITELLM_TEMPERATURE = float(os.getenv("LITELLM_TEMPERATURE", "1.0"))
+LITELLM_TOP_P = float(os.getenv("LITELLM_TOP_P", "0.9"))
+LITELLM_TOP_K = int(os.getenv("LITELLM_TOP_K", "40"))
 
 # Specific model names for strategic use (can be same as LITELLM_DEFAULT_MODEL if only one is used)
 # Primary model defaults to Gemini 2.5 Pro while secondary uses the flash variant
