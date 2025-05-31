@@ -123,3 +123,4 @@ Thumbs.db
 openalpha_evolve_workflow
 *.dot 
 .gradio
+tasks/

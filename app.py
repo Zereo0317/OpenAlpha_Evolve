@@ -299,6 +299,45 @@ def load_task_from_yaml_file(yaml_file):
         logger.error(f"Error loading YAML: {e}")
         return "", "", "", "", ""
 
+
+def save_task_yaml(task_id, description, function_name, examples_json, allowed_imports_text):
+    """Save a task definition as a YAML file inside the tasks directory."""
+    try:
+        examples = json.loads(examples_json or "[]")
+    except json.JSONDecodeError:
+        return "Invalid examples JSON."
+
+    allowed_imports = [imp.strip() for imp in allowed_imports_text.split(",") if imp.strip()]
+
+    test_cases = []
+    for example in examples:
+        case = {"input": example.get("input")}
+        if "output" in example:
+            case["output"] = example["output"]
+        if "validation_func" in example:
+            case["validation_func"] = example["validation_func"]
+        test_cases.append(case)
+
+    task_yaml = {
+        "task_id": task_id,
+        "task_description": description,
+        "function_name": function_name,
+        "allowed_imports": allowed_imports,
+        "tests": [
+            {
+                "description": "Generated from UI",
+                "test_cases": test_cases,
+            }
+        ],
+    }
+
+    os.makedirs("tasks", exist_ok=True)
+    file_path = os.path.join("tasks", f"{task_id}.yaml")
+    with open(file_path, "w") as f:
+        yaml.safe_dump(task_yaml, f, sort_keys=False)
+
+    return f"Task YAML saved to {file_path}"
+
                              
 with gr.Blocks(title="OpenAlpha_Evolve") as demo:
     gr.Markdown("# 🧬 OpenAlpha_Evolve: Autonomous Algorithm Evolution")
@@ -311,44 +350,46 @@ with gr.Blocks(title="OpenAlpha_Evolve") as demo:
     
     with gr.Row():
         with gr.Column(scale=1):
-            gr.Markdown("## Task Definition")
-            
-            task_id = gr.Textbox(
-                label="Task ID", 
-                placeholder="e.g., fibonacci_task",
-                value="fibonacci_task"
-            )
-            
-            description = gr.Textbox(
-                label="Task Description", 
-                placeholder="Describe the problem clearly...",
-                value="Write a Python function that computes the nth Fibonacci number (0-indexed), where fib(0)=0 and fib(1)=1.",
-                lines=5
-            )
-            
-            function_name = gr.Textbox(
-                label="Function Name to Evolve", 
-                placeholder="e.g., fibonacci",
-                value="fibonacci"
-            )
-            
-            examples_json = gr.Code(
-                label="Input/Output Examples (JSON)",
-                language="json",
-                value=FIB_EXAMPLES,
-                lines=10
-            )
-            
-            allowed_imports = gr.Textbox(
-                label="Allowed Imports (comma-separated)",
-                placeholder="e.g., math",
-                value=""
-            )
+            with gr.Box():
+                gr.Markdown("## Task Definition")
 
-            yaml_upload = gr.File(
-                label="Load Task from YAML",
-                file_types=[".yaml", ".yml"]
-            )
+                task_id = gr.Textbox(
+                    label="Task ID",
+                    placeholder="e.g., fibonacci_task",
+                    value="fibonacci_task"
+                )
+
+                description = gr.Textbox(
+                    label="Task Description",
+                    placeholder="Describe the problem clearly...",
+                    value="Write a Python function that computes the nth Fibonacci number (0-indexed), where fib(0)=0 and fib(1)=1.",
+                    lines=5
+                )
+
+                function_name = gr.Textbox(
+                    label="Function Name to Evolve",
+                    placeholder="e.g., fibonacci",
+                    value="fibonacci"
+                )
+
+                examples_json = gr.Code(
+                    label="Input/Output Examples (JSON)",
+                    language="json",
+                    value=FIB_EXAMPLES,
+                    lines=10
+                )
+
+                allowed_imports = gr.Textbox(
+                    label="Allowed Imports (comma-separated)",
+                    placeholder="e.g., math",
+                    value=""
+                )
+
+                yaml_upload = gr.File(
+                    label="Load Task from YAML",
+                    file_types=[".yaml", ".yml"]
+                )
+                save_yaml_btn = gr.Button("💾 Save Task YAML", variant="secondary")
             
             with gr.Row():
                 population_size = gr.Slider(
@@ -400,6 +441,7 @@ with gr.Blocks(title="OpenAlpha_Evolve") as demo:
         with gr.Column(scale=1):
             with gr.Tab("Results"):
                 results_text = gr.Markdown("Evolution results will appear here...")
+                save_status = gr.Markdown("")
             
                                                                   
     
@@ -413,6 +455,12 @@ with gr.Blocks(title="OpenAlpha_Evolve") as demo:
         load_task_from_yaml_file,
         inputs=yaml_upload,
         outputs=[task_id, description, function_name, examples_json, allowed_imports]
+    )
+
+    save_yaml_btn.click(
+        save_task_yaml,
+        inputs=[task_id, description, function_name, examples_json, allowed_imports],
+        outputs=save_status
     )
     
     run_evolution_event = run_btn.click(
