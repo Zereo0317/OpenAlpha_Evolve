@@ -9,7 +9,13 @@ import sys
 import time
 import logging
 from datetime import datetime
-from dotenv import load_dotenv
+
+try:
+    from dotenv import load_dotenv
+except ModuleNotFoundError:  # pragma: no cover - fallback for environments without python-dotenv
+    def load_dotenv(*args, **kwargs):
+        """Fallback no-op if python-dotenv is not installed."""
+        return False
 import yaml
 
                                                
