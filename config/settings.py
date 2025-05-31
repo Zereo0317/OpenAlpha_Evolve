@@ -98,7 +98,7 @@ def get_setting(key, default=None):
     """
     return globals().get(key, default)
 
-def get_llm_model(model_type="default"):
+def get_llm_model(model_type="flash"):
     if model_type == "default":
         return LITELLM_DEFAULT_MODEL
     elif model_type == "flash":
