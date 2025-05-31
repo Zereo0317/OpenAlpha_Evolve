@@ -110,7 +110,7 @@ OpenAlpha_Evolve employs a modular, agent-based architecture to orchestrate an e
 
 2.  **Clone the Repository**:
     ```bash
-    git clone https://github.com/shyamsaktawat/OpenAlpha_Evolve.git
+    git clone https://github.com/Zereo0317/OpenAlpha_Evolve.git
     cd OpenAlpha_Evolve
     ```
 
