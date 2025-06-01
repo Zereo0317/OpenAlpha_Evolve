@@ -101,6 +101,9 @@ Make sure your diff can be applied correctly!
                     return ""
 
                 generated_text = response.choices[0].message.content
+                if generated_text is None:
+                    logger.warning("LLM API returned message content as None.")
+                    return ""
                 logger.debug(f"Raw response from LLM API:\n--RESPONSE START--\n{generated_text}\n--RESPONSE END--")
                 
                 if output_format == "code":
@@ -127,11 +130,15 @@ Make sure your diff can be applied correctly!
         logger.error(f"Code generation failed for model {effective_model_name} after all retries.")
         return ""
 
-    def _clean_llm_output(self, raw_code: str) -> str:
+    def _clean_llm_output(self, raw_code: Optional[str]) -> str:
         """
         Cleans the raw output from the LLM, typically removing markdown code fences.
         Example: ```python\ncode\n``` -> code
         """
+        if raw_code is None:
+            logger.warning("Attempted to clean LLM output but received None.")
+            return ""
+
         logger.debug(f"Attempting to clean raw LLM output. Input length: {len(raw_code)}")
         code = raw_code.strip()
         
