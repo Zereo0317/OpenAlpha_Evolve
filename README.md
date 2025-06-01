@@ -132,6 +132,10 @@ OpenAlpha_Evolve employs a modular, agent-based architecture to orchestrate an e
         cp .env_example .env
         ```
 
+    * If you set `FLASH_API_KEY` or `PRO_API_KEY` but do not provide
+      `GOOGLE_API_KEY`, the application will automatically reuse those keys for
+      Gemini models.
+
 
 ### LLM Configuration
 

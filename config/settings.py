@@ -25,6 +25,15 @@ EVALUATION_API_KEY = os.getenv("EVALUATION_API_KEY")
 EVALUATION_BASE_URL = os.getenv("EVALUATION_BASE_URL", None)
 EVALUATION_MODEL = os.getenv("EVALUATION_MODEL")
 
+# Ensure litellm sees a valid Gemini API key. It checks the environment for
+# ``GOOGLE_API_KEY`` or ``GEMINI_API_KEY``. If neither is set but one of our
+# custom keys is, fall back to it so that calls to the Gemini models succeed.
+if not os.getenv("GOOGLE_API_KEY") and not os.getenv("GEMINI_API_KEY"):
+    if FLASH_API_KEY:
+        os.environ["GOOGLE_API_KEY"] = FLASH_API_KEY
+    elif PRO_API_KEY:
+        os.environ["GOOGLE_API_KEY"] = PRO_API_KEY
+
 # LiteLLM Configuration
 # Use the Gemini 2.5 flash model by default for all LiteLLM calls
 LITELLM_DEFAULT_MODEL = os.getenv("LITELLM_DEFAULT_MODEL", FLASH_MODEL)
