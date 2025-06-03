@@ -1,27 +1,26 @@
 {
     "generic_shortest_path_problem_gen0_prog0": {
         "id": "generic_shortest_path_problem_gen0_prog0",
-        "code": "def solve_shortest_paths(graph, start):\n    import heapq\n\n    distances = {node: float('inf') for node in graph}\n    distances[start] = 0\n\n    pq = [(0, start)]\n\n    while pq:\n        curr_dist, curr_node = heapq.heappop(pq)\n\n        if curr_dist > distances[curr_node]:\n            continue\n\n        for neighbor, weight in graph.get(curr_node, {}).items():\n            distance = curr_dist + weight\n            if distance < distances[neighbor]:\n                distances[neighbor] = distance\n                heapq.heappush(pq, (distance, neighbor))\n\n    for node in distances:\n        if distances[node] == float('inf'):\n            distances[node] = \"float('inf')\"\n\n    return distances",
+        "code": "```python\nimport heapq\n\ndef solve_shortest_paths(graph, start_node):\n    \"\"\"\n    Given a weighted, directed graph and a starting node, finds the shortest distance\n    from the starting node to all other nodes in the graph using Dijkstra's algorithm.\n\n    The graph is represented as a dictionary where keys are node identifiers,\n    and values are dictionaries representing outgoing edges (neighbor: weight).\n\n    Args:\n        graph (dict): A dictionary representing the graph.\n                      Keys are nodes, values are dictionaries of {neighbor: weight}.\n        start_node: The node from which to start calculating shortest paths.\n\n    Returns:\n        dict: A dictionary where keys are node identifiers and values are the\n              calculated shortest distances from the start node. Unreachable nodes\n              will have their distance represented as the string \"float('inf')\".\n    \"\"\"\n    all_nodes = set()\n    if start_node is not None:\n        all_nodes.add(start_node)\n\n    # Collect all nodes explicitly mentioned as keys or neighbors\n    for node, edges in graph.items():\n        all_nodes.add(node)\n        for neighbor in edges:\n            all_nodes.add(neighbor)\n\n    # Initialize distances: infinity for all nodes, 0 for the start_node\n    distances = {node: float('inf') for node in all_nodes}\n    \n    # If the start_node itself is not in all_nodes (e.g., graph is empty and start_node is not in it)\n    # this means start_node was implicitly handled by the initial `all_nodes.add(start_node)`\n    # The check `if start_node in distances` ensures we don't try to set a distance for a non-existent node.\n    # However, `all_nodes` construction guarantees `start_node` will be there.\n    distances[start_node] = 0\n\n    # Priority queue to store (distance, node) pairs, ordered by distance\n    # heapq is a min-heap, so the smallest distance is always at the top.\n    priority_queue = [(0, start_node)]\n\n    while priority_queue:\n        current_distance",
         "fitness_scores": {
             "correctness": 0.0,
             "runtime_ms": Infinity,
             "passed_tests": 0.0,
-            "total_tests": 0.0,
-            "highest_level_passed": -1.0
+            "total_tests": 0.0
         },
         "generation": 0,
         "parent_id": null,
         "island_id": 0,
         "errors": [
-            "Execution Error at Level 0 ('default_level'): Unexpected execution error: [WinError 2] \u7cfb\u7d71\u627e\u4e0d\u5230\u6307\u5b9a\u7684\u6a94\u6848\u3002"
+            "SyntaxError: invalid syntax at line 1, offset 1"
         ],
         "status": "failed_evaluation",
-        "created_at": 1748342486.9847705,
+        "created_at": 1748796428.9132428,
         "task_id": null
     },
     "generic_shortest_path_problem_gen0_prog1": {
         "id": "generic_shortest_path_problem_gen0_prog1",
-        "code": "import heapq\n\ndef solve_shortest_paths(graph, start):\n    distances = {node: float('inf') for node in graph}\n    distances[start] = 0\n    visited = set()\n    heap = [(0, start)]\n\n    while heap:\n        (curr_dist, curr_node) = heapq.heappop(heap)\n\n        if curr_node in visited:\n            continue\n\n        visited.add(curr_node)\n\n        for neighbor, weight in graph.get(curr_node, {}).items():\n            new_dist = curr_dist + weight\n            if new_dist < distances[neighbor]:\n                distances[neighbor] = new_dist\n                heapq.heappush(heap, (new_dist, neighbor))\n\n    for node in graph:\n        if distances[node] == float('inf'):\n            distances[node] = \"float('inf')\"\n\n    return distances",
+        "code": "",
         "fitness_scores": {
             "correctness": 0.0,
             "runtime_ms": Infinity,
@@ -36,12 +35,12 @@
             "Execution Error at Level 0 ('default_level'): Unexpected execution error: [WinError 2] \u7cfb\u7d71\u627e\u4e0d\u5230\u6307\u5b9a\u7684\u6a94\u6848\u3002"
         ],
         "status": "failed_evaluation",
-        "created_at": 1748342486.9944317,
+        "created_at": 1748796428.9177,
         "task_id": null
     },
     "generic_shortest_path_problem_gen0_prog2": {
         "id": "generic_shortest_path_problem_gen0_prog2",
-        "code": "def solve_shortest_paths(graph, start):\n    import heapq\n\n    distances = {node: float('inf') for node in graph}\n    distances[start] = 0\n\n    heap = [(0, start)]\n\n    while heap:\n        curr_dist, curr_node = heapq.heappop(heap)\n\n        if curr_dist > distances[curr_node]:\n            continue\n\n        for neighbor, weight in graph.get(curr_node, {}).items():\n            new_dist = curr_dist + weight\n\n            if new_dist < distances[neighbor]:\n                distances[neighbor] = new_dist\n                heapq.heappush(heap, (new_dist, neighbor))\n\n    for node in distances:\n        if distances[node] == float('inf'):\n            distances[node] = \"float('inf')\"\n\n    return distances",
+        "code": "",
         "fitness_scores": {
             "correctness": 0.0,
             "runtime_ms": Infinity,
@@ -56,32 +55,12 @@
             "Execution Error at Level 0 ('default_level'): Unexpected execution error: [WinError 2] \u7cfb\u7d71\u627e\u4e0d\u5230\u6307\u5b9a\u7684\u6a94\u6848\u3002"
         ],
         "status": "failed_evaluation",
-        "created_at": 1748342487.0069406,
+        "created_at": 1748796428.9232397,
         "task_id": null
     },
     "generic_shortest_path_problem_gen0_prog3": {
         "id": "generic_shortest_path_problem_gen0_prog3",
-        "code": "import heapq\n\ndef solve_shortest_paths(graph, start):\n    distances = {node: float('inf') for node in graph}\n    distances[start] = 0\n\n    heap = [(0, start)]\n\n    while heap:\n        curr_dist, curr_node = heapq.heappop(heap)\n\n        if curr_dist > distances[curr_node]:\n            continue\n\n        for neighbor, weight in graph.get(curr_node, {}).items():\n            new_dist = curr_dist + weight\n\n            if new_dist < distances[neighbor]:\n                distances[neighbor] = new_dist\n                heapq.heappush(heap, (new_dist, neighbor))\n\n    return {node: \"float('inf')\" if distances[node] == float('inf') else distances[node] for node in distances}",
-        "fitness_scores": {
-            "correctness": 0.0,
-            "runtime_ms": Infinity,
-            "passed_tests": 0.0,
-            "total_tests": 0.0,
-            "highest_level_passed": -1.0
-        },
-        "generation": 0,
-        "parent_id": null,
-        "island_id": 1,
-        "errors": [
-            "Execution Error at Level 0 ('default_level'): Unexpected execution error: [WinError 2] \u7cfb\u7d71\u627e\u4e0d\u5230\u6307\u5b9a\u7684\u6a94\u6848\u3002"
-        ],
-        "status": "failed_evaluation",
-        "created_at": 1748342487.0200133,
-        "task_id": null
-    },
-    "generic_shortest_path_problem_gen0_prog4": {
-        "id": "generic_shortest_path_problem_gen0_prog4",
-        "code": "import heapq\n\ndef solve_shortest_paths(graph, start):\n    distances = {node: float('inf') for node in graph}\n    distances[start] = 0\n    pq = [(0, start)]\n    \n    while pq:\n        curr_dist, curr_node = heapq.heappop(pq)\n        \n        if curr_dist > distances[curr_node]:\n            continue\n        \n        for neighbor, weight in graph.get(curr_node, {}).items():\n            distance = curr_dist + weight\n            if distance < distances[neighbor]:\n                distances[neighbor] = distance\n                heapq.heappush(pq, (distance, neighbor))\n    \n    for node in distances:\n        if distances[node] == float('inf'):\n            distances[node] = str(float('inf'))\n    \n    return distances",
+        "code": "",
         "fitness_scores": {
             "correctness": 0.0,
             "runtime_ms": Infinity,
@@ -96,7 +75,27 @@
             "Execution Error at Level 0 ('default_level'): Unexpected execution error: [WinError 2] \u7cfb\u7d71\u627e\u4e0d\u5230\u6307\u5b9a\u7684\u6a94\u6848\u3002"
         ],
         "status": "failed_evaluation",
-        "created_at": 1748342487.0268571,
+        "created_at": 1748796428.9350526,
+        "task_id": null
+    },
+    "generic_shortest_path_problem_gen0_prog4": {
+        "id": "generic_shortest_path_problem_gen0_prog4",
+        "code": "import heapq\n\ndef solve_shortest_paths(graph, start_node):\n    # 1. Identify all nodes in the graph\n    # This includes nodes explicitly in the graph's keys and nodes that are only targets of edges.\n    all_nodes = set()\n    all_nodes.add(start_node) # Ensure the start_node is always considered\n\n    for u in graph:\n        all_nodes.add(u)\n        for v in graph[u]:\n            all_nodes.add(v)\n\n    # 2. Initialize distances\n    # All nodes initially have an 'infinite' distance, except the start_node which is 0.\n    distances = {node: float('inf') for node in all_nodes}\n    distances[start_node] = 0\n\n    # 3. Priority queue (min-heap)\n    # Stores tuples of (distance, node). The node with the smallest distance is prioritized.\n    priority_queue = [(0, start_node)]\n\n    # 4. Dijkstra's Algorithm\n    while priority_queue:\n        current_dist, current_node = heapq.heappop(priority_queue)\n\n        # If we have already found a shorter path to current_node,\n        # this entry in the priority queue is outdated, so we skip it.\n        if current_dist > distances[current_node]:\n            continue\n\n        # Explore neighbors of the current_node\n        # Only proceed if current_node actually has outgoing edges defined in the graph\n        if current_node in graph:\n            for neighbor, weight in graph[current_node].items():\n                distance = current_dist + weight\n\n                # If a shorter path to the neighbor is found\n                if distance < distances[neighbor]:\n                    distances[neighbor] = distance\n                    heapq.heappush(priority_queue, (distance, neighbor))\n    \n    return distances",
+        "fitness_scores": {
+            "correctness": 0.0,
+            "runtime_ms": Infinity,
+            "passed_tests": 0.0,
+            "total_tests": 0.0,
+            "highest_level_passed": -1.0
+        },
+        "generation": 0,
+        "parent_id": null,
+        "island_id": 3,
+        "errors": [
+            "Execution Error at Level 0 ('default_level'): Unexpected execution error: [WinError 2] \u7cfb\u7d71\u627e\u4e0d\u5230\u6307\u5b9a\u7684\u6a94\u6848\u3002"
+        ],
+        "status": "failed_evaluation",
+        "created_at": 1748796428.9396174,
         "task_id": null
     },
     "generic_shortest_path_problem_gen1_child0_0": {
