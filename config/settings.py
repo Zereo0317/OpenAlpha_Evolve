@@ -19,7 +19,9 @@ FLASH_MODEL = os.getenv("FLASH_MODEL", "gemini/gemini-2.5-flash-preview-05-20")
 # now loaded so they can be used as the primary model if desired.
 PRO_API_KEY = os.getenv("PRO_API_KEY")
 PRO_BASE_URL = os.getenv("PRO_BASE_URL", None)
-PRO_MODEL = os.getenv("PRO_MODEL", "gemini/gemini-2.5-pro")
+# Use the updated Gemini 2.5 Pro preview model by default.
+# Older "gemini-2.5-pro" caused 404 errors against the v1beta API.
+PRO_MODEL = os.getenv("PRO_MODEL", "gemini/gemini-2.5-pro-preview-05-06")
 
 EVALUATION_API_KEY = os.getenv("EVALUATION_API_KEY")
 EVALUATION_BASE_URL = os.getenv("EVALUATION_BASE_URL", None)
