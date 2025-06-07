@@ -1,41 +1,42 @@
 {
     "generic_shortest_path_problem_gen0_prog0": {
         "id": "generic_shortest_path_problem_gen0_prog0",
-        "code": "```python\nimport heapq\n\ndef solve_shortest_paths(graph, start_node):\n    \"\"\"\n    Given a weighted, directed graph and a starting node, finds the shortest distance\n    from the starting node to all other nodes in the graph using Dijkstra's algorithm.\n\n    The graph is represented as a dictionary where keys are node identifiers,\n    and values are dictionaries representing outgoing edges (neighbor: weight).\n\n    Args:\n        graph (dict): A dictionary representing the graph.\n                      Keys are nodes, values are dictionaries of {neighbor: weight}.\n        start_node: The node from which to start calculating shortest paths.\n\n    Returns:\n        dict: A dictionary where keys are node identifiers and values are the\n              calculated shortest distances from the start node. Unreachable nodes\n              will have their distance represented as the string \"float('inf')\".\n    \"\"\"\n    all_nodes = set()\n    if start_node is not None:\n        all_nodes.add(start_node)\n\n    # Collect all nodes explicitly mentioned as keys or neighbors\n    for node, edges in graph.items():\n        all_nodes.add(node)\n        for neighbor in edges:\n            all_nodes.add(neighbor)\n\n    # Initialize distances: infinity for all nodes, 0 for the start_node\n    distances = {node: float('inf') for node in all_nodes}\n    \n    # If the start_node itself is not in all_nodes (e.g., graph is empty and start_node is not in it)\n    # this means start_node was implicitly handled by the initial `all_nodes.add(start_node)`\n    # The check `if start_node in distances` ensures we don't try to set a distance for a non-existent node.\n    # However, `all_nodes` construction guarantees `start_node` will be there.\n    distances[start_node] = 0\n\n    # Priority queue to store (distance, node) pairs, ordered by distance\n    # heapq is a min-heap, so the smallest distance is always at the top.\n    priority_queue = [(0, start_node)]\n\n    while priority_queue:\n        current_distance",
-        "fitness_scores": {
-            "correctness": 0.0,
-            "runtime_ms": Infinity,
-            "passed_tests": 0.0,
-            "total_tests": 0.0
-        },
-        "generation": 0,
-        "parent_id": null,
-        "island_id": 0,
-        "errors": [
-            "SyntaxError: invalid syntax at line 1, offset 1"
-        ],
-        "status": "failed_evaluation",
-        "created_at": 1748796428.9132428,
-        "task_id": null
-    },
-    "generic_shortest_path_problem_gen0_prog1": {
-        "id": "generic_shortest_path_problem_gen0_prog1",
         "code": "",
         "fitness_scores": {
             "correctness": 0.0,
             "runtime_ms": Infinity,
             "passed_tests": 0.0,
-            "total_tests": 0.0,
+            "total_tests": 11.0,
+            "highest_level_passed": -1.0
+        },
+        "generation": 0,
+        "parent_id": null,
+        "island_id": 0,
+        "errors": [
+            "Failed 11 of 11 tests at Level 0 ('default_level')."
+        ],
+        "status": "failed_evaluation",
+        "created_at": 1749281112.733123,
+        "task_id": null
+    },
+    "generic_shortest_path_problem_gen0_prog1": {
+        "id": "generic_shortest_path_problem_gen0_prog1",
+        "code": "import heapq\n\ndef solve_shortest_paths(graph, start_node):\n    # 1. Collect all unique nodes in the graph\n    # This ensures all nodes, even those only appearing as destinations, are included.\n    all_nodes = set()\n    all_nodes.add(start_node)\n    for node, edges in graph.items():\n        all_nodes.add(node)\n        for neighbor in edges:\n            all_nodes.add(neighbor)\n\n    # 2. Initialize distances\n    # All nodes start with an infinite distance, except the start_node which is 0.\n    distances = {node: float('inf') for node in all_nodes}\n    distances[start_node] = 0\n\n    # 3. Priority queue (min-heap)\n    # Stores tuples of (distance, node) to efficiently retrieve the node with the smallest distance.\n    priority_queue = [(0, start_node)]\n\n    # 4. Dijkstra's Algorithm\n    while priority_queue:\n        current_distance, current_node = heapq.heappop(priority_queue)\n\n        # If we've already found a shorter path to this node, skip processing it.\n        # This handles cases where a node is pushed multiple times with different distances,\n        # but we only care about the shortest one.\n        if current_distance > distances[current_node]:\n            continue\n\n        # Explore neighbors of the current_node\n        # Ensure current_node exists as a key in the graph before iterating its edges.\n        # A node might be in `all_nodes` (e.g., a destination or the start_node) but not\n        # have any outgoing edges defined in the `graph` dictionary.\n        if current_node in graph:\n            for neighbor, weight in graph[current_node].items():\n                distance = current_distance + weight\n\n                # If a shorter path to the neighbor is found through current_node\n                if distance < distances[neighbor]:\n                    distances[neighbor] = distance\n                    heapq.heappush(priority_queue, (distance, neighbor))\n\n    return distances",
+        "fitness_scores": {
+            "correctness": 0.7272727272727273,
+            "runtime_ms": Infinity,
+            "passed_tests": 8.0,
+            "total_tests": 11.0,
             "highest_level_passed": -1.0
         },
         "generation": 0,
         "parent_id": null,
         "island_id": 1,
         "errors": [
-            "Execution Error at Level 0 ('default_level'): Unexpected execution error: [WinError 2] \u7cfb\u7d71\u627e\u4e0d\u5230\u6307\u5b9a\u7684\u6a94\u6848\u3002"
+            "Failed 3 of 11 tests at Level 0 ('default_level')."
         ],
         "status": "failed_evaluation",
-        "created_at": 1748796428.9177,
+        "created_at": 1749281112.733737,
         "task_id": null
     },
     "generic_shortest_path_problem_gen0_prog2": {
@@ -45,57 +46,57 @@
             "correctness": 0.0,
             "runtime_ms": Infinity,
             "passed_tests": 0.0,
-            "total_tests": 0.0,
+            "total_tests": 11.0,
             "highest_level_passed": -1.0
         },
         "generation": 0,
         "parent_id": null,
         "island_id": 2,
         "errors": [
-            "Execution Error at Level 0 ('default_level'): Unexpected execution error: [WinError 2] \u7cfb\u7d71\u627e\u4e0d\u5230\u6307\u5b9a\u7684\u6a94\u6848\u3002"
+            "Failed 11 of 11 tests at Level 0 ('default_level')."
         ],
         "status": "failed_evaluation",
-        "created_at": 1748796428.9232397,
+        "created_at": 1749281112.7340338,
         "task_id": null
     },
     "generic_shortest_path_problem_gen0_prog3": {
         "id": "generic_shortest_path_problem_gen0_prog3",
+        "code": "import heapq\n\ndef solve_shortest_paths(graph, start_node):\n    \"\"\"\n    Finds the shortest distance from a starting node to all other nodes in a\n    weighted, directed graph using Dijkstra's algorithm.\n\n    Args:\n        graph (dict): A dictionary representing the graph. Keys are node\n                      identifiers, and values are dictionaries of outgoing\n                      edges. In these inner dictionaries, keys are neighbor\n                      node identifiers and values are the weights (costs)\n                      of the edges.\n        start_node: The identifier of the starting node.\n\n    Returns:\n        dict: A dictionary where keys are node identifiers and values are the\n              calculated shortest distances from the start node. Unreachable\n              nodes will have a distance of float('inf').\n    \"\"\"\n    # 1. Gather all unique nodes in the graph.\n    # This includes nodes that are keys in the graph dictionary,\n    # and nodes that only appear as destinations of edges.\n    all_nodes = set()\n    for u in graph:\n        all_nodes.add(u)\n        for v in graph[u]:\n            all_nodes.add(v)\n    \n    # Ensure the start_node is included in the set of all nodes,\n    # even if the graph is empty or the start_node is isolated.\n    all_nodes.add(start_node)\n\n    # 2. Initialize distances for all nodes.\n    # All distances are set to infinity, except for the start_node, which is 0.\n    distances = {node: float('inf') for node in all_nodes}\n    distances[start_node] = 0\n\n    # 3. Initialize a min-priority queue.\n    # The priority queue stores tuples of (distance, node), ordered by distance.\n    # We start with the start_node and its distance 0.\n    priority_queue = [(0, start_node)]\n\n    # 4. Dijkstra's algorithm main loop.\n    while priority_queue:\n        # Extract the node with the smallest known distance.\n        current_distance, u = heapq.heappop(priority_queue)\n\n        # If we have already found a shorter path to 'u', skip this one.\n        # This handles redundant entries in the heap.\n        if current_distance > distances[u]:\n            continue\n\n        # Explore neighbors of 'u'.\n        # Check if 'u' actually exists as a key in the graph dictionary,\n        # as some nodes might be destinations only and not have outgoing edges defined.\n        if u in graph:\n            for v, weight in graph[u].items():\n                # Calculate the distance to the neighbor 'v' through 'u'.\n                distance = current_distance + weight\n\n                # If a shorter path to 'v' is found, update its distance\n                # and add it to the priority queue.\n                if distance < distances[v]:\n                    distances[v] = distance\n                    heapq.heappush(priority_queue, (distance, v))\n    \n    return distances",
+        "fitness_scores": {
+            "correctness": 0.7272727272727273,
+            "runtime_ms": Infinity,
+            "passed_tests": 8.0,
+            "total_tests": 11.0,
+            "highest_level_passed": -1.0
+        },
+        "generation": 0,
+        "parent_id": null,
+        "island_id": 3,
+        "errors": [
+            "Failed 3 of 11 tests at Level 0 ('default_level')."
+        ],
+        "status": "failed_evaluation",
+        "created_at": 1749281112.734483,
+        "task_id": null
+    },
+    "generic_shortest_path_problem_gen0_prog4": {
+        "id": "generic_shortest_path_problem_gen0_prog4",
         "code": "",
         "fitness_scores": {
             "correctness": 0.0,
             "runtime_ms": Infinity,
             "passed_tests": 0.0,
-            "total_tests": 0.0,
+            "total_tests": 11.0,
             "highest_level_passed": -1.0
         },
         "generation": 0,
         "parent_id": null,
         "island_id": 3,
         "errors": [
-            "Execution Error at Level 0 ('default_level'): Unexpected execution error: [WinError 2] \u7cfb\u7d71\u627e\u4e0d\u5230\u6307\u5b9a\u7684\u6a94\u6848\u3002"
+            "Failed 11 of 11 tests at Level 0 ('default_level')."
         ],
         "status": "failed_evaluation",
-        "created_at": 1748796428.9350526,
-        "task_id": null
-    },
-    "generic_shortest_path_problem_gen0_prog4": {
-        "id": "generic_shortest_path_problem_gen0_prog4",
-        "code": "import heapq\n\ndef solve_shortest_paths(graph, start_node):\n    # 1. Identify all nodes in the graph\n    # This includes nodes explicitly in the graph's keys and nodes that are only targets of edges.\n    all_nodes = set()\n    all_nodes.add(start_node) # Ensure the start_node is always considered\n\n    for u in graph:\n        all_nodes.add(u)\n        for v in graph[u]:\n            all_nodes.add(v)\n\n    # 2. Initialize distances\n    # All nodes initially have an 'infinite' distance, except the start_node which is 0.\n    distances = {node: float('inf') for node in all_nodes}\n    distances[start_node] = 0\n\n    # 3. Priority queue (min-heap)\n    # Stores tuples of (distance, node). The node with the smallest distance is prioritized.\n    priority_queue = [(0, start_node)]\n\n    # 4. Dijkstra's Algorithm\n    while priority_queue:\n        current_dist, current_node = heapq.heappop(priority_queue)\n\n        # If we have already found a shorter path to current_node,\n        # this entry in the priority queue is outdated, so we skip it.\n        if current_dist > distances[current_node]:\n            continue\n\n        # Explore neighbors of the current_node\n        # Only proceed if current_node actually has outgoing edges defined in the graph\n        if current_node in graph:\n            for neighbor, weight in graph[current_node].items():\n                distance = current_dist + weight\n\n                # If a shorter path to the neighbor is found\n                if distance < distances[neighbor]:\n                    distances[neighbor] = distance\n                    heapq.heappush(priority_queue, (distance, neighbor))\n    \n    return distances",
-        "fitness_scores": {
-            "correctness": 0.0,
-            "runtime_ms": Infinity,
-            "passed_tests": 0.0,
-            "total_tests": 0.0,
-            "highest_level_passed": -1.0
-        },
-        "generation": 0,
-        "parent_id": null,
-        "island_id": 3,
-        "errors": [
-            "Execution Error at Level 0 ('default_level'): Unexpected execution error: [WinError 2] \u7cfb\u7d71\u627e\u4e0d\u5230\u6307\u5b9a\u7684\u6a94\u6848\u3002"
-        ],
-        "status": "failed_evaluation",
-        "created_at": 1748796428.9396174,
+        "created_at": 1749281112.736507,
         "task_id": null
     },
     "generic_shortest_path_problem_gen1_child0_0": {
@@ -325,6 +326,60 @@
         ],
         "status": "failed_evaluation",
         "created_at": 1748342491.2983148,
+        "task_id": null
+    },
+    "fibonacci_task_gen0_prog0": {
+        "id": "fibonacci_task_gen0_prog0",
+        "code": "def fibonacci(n):\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        a, b = 0, 1\n        for _ in range(2, n + 1):\n            a, b = b, a + b\n        return b",
+        "fitness_scores": {
+            "correctness": 1.0,
+            "runtime_ms": 0.0006457266863435507,
+            "passed_tests": 4.0,
+            "total_tests": 4.0,
+            "highest_level_passed": 0.0
+        },
+        "generation": 0,
+        "parent_id": null,
+        "island_id": 0,
+        "errors": [],
+        "status": "evaluated",
+        "created_at": 1749282692.669245,
+        "task_id": null
+    },
+    "fibonacci_task_gen0_prog1": {
+        "id": "fibonacci_task_gen0_prog1",
+        "code": "def fibonacci(n):\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        a, b = 0, 1\n        for _ in range(2, n + 1):\n            a, b = b, a + b\n        return b",
+        "fitness_scores": {
+            "correctness": 1.0,
+            "runtime_ms": 0.0009165087249130011,
+            "passed_tests": 4.0,
+            "total_tests": 4.0,
+            "highest_level_passed": 0.0
+        },
+        "generation": 0,
+        "parent_id": null,
+        "island_id": 1,
+        "errors": [],
+        "status": "evaluated",
+        "created_at": 1749282692.675025,
+        "task_id": null
+    },
+    "fibonacci_task_gen0_prog2": {
+        "id": "fibonacci_task_gen0_prog2",
+        "code": "def fibonacci(n: int) -> int:\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        a, b = 0, 1\n        for _ in range(2, n + 1):\n            next_fib = a + b\n            a = b\n            b = next_fib\n        return b",
+        "fitness_scores": {
+            "correctness": 1.0,
+            "runtime_ms": 0.0008852221071720123,
+            "passed_tests": 4.0,
+            "total_tests": 4.0,
+            "highest_level_passed": 0.0
+        },
+        "generation": 0,
+        "parent_id": null,
+        "island_id": 2,
+        "errors": [],
+        "status": "evaluated",
+        "created_at": 1749282692.675393,
         "task_id": null
     }
 }
