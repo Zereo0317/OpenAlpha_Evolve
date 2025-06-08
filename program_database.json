@@ -332,54 +332,60 @@
         "id": "fibonacci_task_gen0_prog0",
         "code": "def fibonacci(n):\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        a, b = 0, 1\n        for _ in range(2, n + 1):\n            a, b = b, a + b\n        return b",
         "fitness_scores": {
-            "correctness": 1.0,
-            "runtime_ms": 0.0006457266863435507,
-            "passed_tests": 4.0,
-            "total_tests": 4.0,
-            "highest_level_passed": 0.0
+            "correctness": 0.0,
+            "runtime_ms": Infinity,
+            "passed_tests": 0.0,
+            "total_tests": 0.0,
+            "highest_level_passed": -1.0
         },
         "generation": 0,
         "parent_id": null,
         "island_id": 0,
-        "errors": [],
-        "status": "evaluated",
-        "created_at": 1749282692.669245,
+        "errors": [
+            "Execution Error at Level 0 ('default_level'): Unexpected execution error: [WinError 2] \u7cfb\u7d71\u627e\u4e0d\u5230\u6307\u5b9a\u7684\u6a94\u6848\u3002"
+        ],
+        "status": "failed_evaluation",
+        "created_at": 1749288243.6053126,
         "task_id": null
     },
     "fibonacci_task_gen0_prog1": {
         "id": "fibonacci_task_gen0_prog1",
         "code": "def fibonacci(n):\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        a, b = 0, 1\n        for _ in range(2, n + 1):\n            a, b = b, a + b\n        return b",
         "fitness_scores": {
-            "correctness": 1.0,
-            "runtime_ms": 0.0009165087249130011,
-            "passed_tests": 4.0,
-            "total_tests": 4.0,
-            "highest_level_passed": 0.0
+            "correctness": 0.0,
+            "runtime_ms": Infinity,
+            "passed_tests": 0.0,
+            "total_tests": 0.0,
+            "highest_level_passed": -1.0
         },
         "generation": 0,
         "parent_id": null,
         "island_id": 1,
-        "errors": [],
-        "status": "evaluated",
-        "created_at": 1749282692.675025,
+        "errors": [
+            "Execution Error at Level 0 ('default_level'): Unexpected execution error: [WinError 2] \u7cfb\u7d71\u627e\u4e0d\u5230\u6307\u5b9a\u7684\u6a94\u6848\u3002"
+        ],
+        "status": "failed_evaluation",
+        "created_at": 1749288243.6209319,
         "task_id": null
     },
     "fibonacci_task_gen0_prog2": {
         "id": "fibonacci_task_gen0_prog2",
-        "code": "def fibonacci(n: int) -> int:\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        a, b = 0, 1\n        for _ in range(2, n + 1):\n            next_fib = a + b\n            a = b\n            b = next_fib\n        return b",
+        "code": "def fibonacci(n):\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        a, b = 0, 1\n        for _ in range(2, n + 1):\n            a, b = b, a + b\n        return b",
         "fitness_scores": {
-            "correctness": 1.0,
-            "runtime_ms": 0.0008852221071720123,
-            "passed_tests": 4.0,
-            "total_tests": 4.0,
-            "highest_level_passed": 0.0
+            "correctness": 0.0,
+            "runtime_ms": Infinity,
+            "passed_tests": 0.0,
+            "total_tests": 0.0,
+            "highest_level_passed": -1.0
         },
         "generation": 0,
         "parent_id": null,
         "island_id": 2,
-        "errors": [],
-        "status": "evaluated",
-        "created_at": 1749282692.675393,
+        "errors": [
+            "Execution Error at Level 0 ('default_level'): Unexpected execution error: [WinError 2] \u7cfb\u7d71\u627e\u4e0d\u5230\u6307\u5b9a\u7684\u6a94\u6848\u3002"
+        ],
+        "status": "failed_evaluation",
+        "created_at": 1749288243.6260264,
         "task_id": null
     }
 }
